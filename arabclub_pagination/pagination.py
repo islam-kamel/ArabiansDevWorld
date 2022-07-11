@@ -75,7 +75,7 @@ class Pagination:
 
     @classmethod
     def reset_save_index(cls):
-        cls.__temp = []
+        cls.__temp.clear()
         cls.__save_index = 0
 
     def validNumber(self, number):
@@ -149,7 +149,8 @@ class Pagination:
                 index += 1
                 page_size += 1
                 self.increase_save_index()
-            self.set_temp(temp)
+            if len(temp):
+                self.set_temp(temp)
         return self.temp()
 
     @property
