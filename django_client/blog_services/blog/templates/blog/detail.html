@@ -1,7 +1,6 @@
 {% extends "blog/base.html" %}
-
+{% load markdownify %}
 {% block content %}
-
 {% load crispy_forms_tags %}
 
 <div class=" mb-3  p-3 card bg-blue ">
@@ -10,7 +9,7 @@
         src="{{post.author.profile.image.url}}" alt="صورة الناشر">
     <div class="row bg- p-2 pb-0  ">
         <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 text-light">
-            <span>أسم الناشر : {{post.author}}</span>
+            <span>أسم الناشر : {{post.user.name.first_name}} {{ post.user.name.last_name }}</span>
         </div>
 
         <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 text-xl-left text-lg-left text-md-left text-sm-left text-light">
@@ -18,7 +17,6 @@
         </div>
     </div>
 </div>
-
 <div lass="border mb-3  p-3 card">
     {% if post.author == user %}
     <div class="btn-edting d-inline-block mt-2">
@@ -29,7 +27,8 @@
     <div class="border-bottom border-bottom-style mb-4 d-inline-block">
         <h3 class="text-dark mt-3 font-weight-bolder">{{post.title}}</h3>
     </div>
-    <p>{{post.content}}</p>
+
+    <p>{{post.content|markdownify:"alternative"}}</p>
 </div>
 
 <div>

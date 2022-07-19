@@ -1,10 +1,14 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Post
-from .forms import NewComment, PostCreateView, PostUpdateView
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.views.generic import UpdateView, DeleteView
+import requests
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import render
+from django.views.generic import DeleteView, UpdateView
 from django.views.generic.edit import FormView
+
+from .forms import PostCreateView, PostUpdateView
+from .models import Post
+
+read_post_url = "http://127.0.0.2:8001/feed/"
 
 
 def landing_page(request):
@@ -12,7 +16,7 @@ def landing_page(request):
 
 
 def home(request):
-    posts = Post.objects.all()
+    posts = requests.get(read_post_url).json()
     paginator = Paginator(posts, 5)
     page = request.GET.get("page")
     try:
@@ -33,28 +37,11 @@ def about(request):
     return render(request, "blog/about.html", {"title": "من نحن؟"})
 
 
-def post_detail(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-
-    comments = post.comments.filter(active=True)
-
-    if request.method == "POST":
-
-        comment_form = NewComment(data=request.POST)
-        if comment_form.is_valid():
-            new_comment = comment_form.save(commit=False)
-            new_comment.post = post
-            new_comment.save()
-    else:
-        comment_form = NewComment()
-
+def post_detail(request, slug):
+    post = requests.get(read_post_url + slug).json()
     context = {
-        "title": post,
         "post": post,
-        "comments": comments,
-        "comment_form": comment_form,
     }
-
     return render(request, "blog/detail.html", context)
 
 

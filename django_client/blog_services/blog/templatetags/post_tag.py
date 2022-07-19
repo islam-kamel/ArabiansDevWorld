@@ -1,5 +1,5 @@
+from blog.models import Comment, Post
 from django import template
-from blog.models import Post, Comment
 
 register = template.Library()
 
@@ -14,9 +14,13 @@ def latest_posts():
 
 @register.inclusion_tag("blog/latest_comments.html")
 def latest_comments():
-
     context = {
         "l_comment": Comment.objects.filter(active=True)[:5],
     }
 
     return context
+
+
+@register.filter(name="valid_url")
+def valid_url(slug, pk):
+    return f"{slug}-{pk}"

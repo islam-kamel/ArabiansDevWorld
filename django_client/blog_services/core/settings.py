@@ -19,9 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-h(_qk4q0kfcdpza2^h*^rm_r%5bs$g*8qm87k#r)3^&mp%o0td"
-)
+SECRET_KEY = "django-insecure-h(_qk4q0kfcdpza2^h*^rm_r%5bs$g*8qm87k#r)3^&mp%o0td"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,10 +34,11 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "blog",
     "django.contrib.staticfiles",
     "crispy_forms",
     "crispy_bootstrap5",
+    "markdownify.apps.MarkdownifyConfig",
+    "blog",
 ]
 
 
@@ -125,3 +124,53 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+PLUGINS = [
+    "pelican.plugins.jinja_filters",
+]
+MARKDOWNIFY = {
+    "default": {
+        "WHITELIST_TAGS": [
+            "a",
+            "abbr",
+            "acronym",
+            "b",
+            "blockquote",
+            "em",
+            "i",
+            "li",
+            "ol",
+            "p",
+            "strong",
+            "ul",
+            "h2",
+            "code",
+            "pre",
+        ],
+        "MARKDOWN_EXTENSIONS": [
+            "markdown.extensions.fenced_code",
+        ],
+    },
+    "alternative": {
+        "WHITELIST_TAGS": [
+            "a",
+            "abbr",
+            "acronym",
+            "b",
+            "blockquote",
+            "em",
+            "i",
+            "li",
+            "ol",
+            "p",
+            "strong",
+            "ul",
+            "h2",
+            "code",
+            "code",
+        ],
+        "MARKDOWN_EXTENSIONS": [
+            "markdown.extensions.fenced_code",
+            "pymdownx.superfences",
+        ],
+    },
+}

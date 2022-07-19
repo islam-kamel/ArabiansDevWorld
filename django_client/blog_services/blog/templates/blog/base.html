@@ -21,54 +21,49 @@
             <!--Start Navbar-->
             <nav class="navbar navbar-expand-lg navbar-light   bg-white border-bottom">
                 <a class="navbar-brand" href="{% url 'home' %}">
-                    <img style="width: 30px;" src="{% static 'blog/images/logo.png' %}" alt="شعار المنطقة">
-                    <span class="site-name font-weight-bold blue">المنطقة 312</span>
+                    <span class="site-name font-weight-bolder blue">ArabiansDevWorld</span>
                 </a>
                 <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon "></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ">
-                        <li class="nav-item active">
-                            <a class="nav-link text-dark" href="{% url 'home' %}">الرئسية<span
-                                    class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                شوارعنا
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">شارع Python</a>
-                                <a class="dropdown-item" href="#">شارع Java</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"> شارع HTML </a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="{% url 'about' %}">من نحن ؟</a>
-                        </li>
+{#                <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
+{#                    <ul class="navbar-nav ">#}
+{#                        <li class="nav-item dropdown">#}
+{#                            <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button"#}
+{#                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                                شوارعنا#}
+{#                            </a>#}
+{#                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                                <a class="dropdown-item" href="#">شارع Python</a>#}
+{#                                <a class="dropdown-item" href="#">شارع Java</a>#}
+{#                                <div class="dropdown-divider"></div>#}
+{#                                <a class="dropdown-item" href="#"> شارع HTML </a>#}
+{#                            </div>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link text-dark" href="{% url 'about' %}">من نحن ؟</a>#}
+{#                        </li>#}
+{#                    </ul>#}
+                    {% if user.is_authenticated %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item btn-sigin user-btn "><a class="nav-link btn btn-outline-success btn-sm m-1 "
+                                href="">تدوينة جديدة</a></li>
+                        <li class="nav-item btn-sigin"><a class="nav-link btn btn-outline-success btn-sm m-1 "
+                                href="">{{user.username}} <img class="img-fluid  rounded-circle"
+                                    style="width: 25px; height:  28px" src="{{user.profile.image.url}}" alt=""> </a> </li>
+                        <li class="nav-item btn-login user-btn  "><a class="nav-link; btn btn-primary btn-sm m-1 "
+                                href=""> تسجيل خروج </a></li>
                     </ul>
-{#                    {% if user.is_authenticated %}#}
-{#                    <ul class="navbar-nav mr-auto">#}
-{#                        <li class="nav-item btn-sigin user-btn "><a class="nav-link btn btn-outline-success btn-sm m-1 "#}
-{#                                href="{% url 'new_post' %}">تدوينة جديدة</a></li>#}
-{#                        <li class="nav-item btn-sigin"><a class="nav-link btn btn-outline-success btn-sm m-1 "#}
-{#                                href="{% url 'profile' %}">{{user.username}} <img class="img-fluid  rounded-circle"#}
-{#                                    style="width: 25px; height:  28px" src="{{user.profile.image.url}}" alt=""> </a> </li>#}
-{#                        <li class="nav-item btn-login user-btn  "><a class="nav-link; btn btn-primary btn-sm m-1 "#}
-{#                                href="{% url 'logout' %}"> تسجيل خروج </a></li>#}
-{#                    </ul>#}
-{#                    {% else %}#}
-{#                    <ul class="navbar-nav mr-auto">#}
-{#                        <li class="nav-item btn-sigin"><a class="nav-link btn btn-outline-success btn-sm m-1"#}
-{#                                href="{% url 'login' %}"> تسجيل دخول</a></li>#}
-{#                        <li class="nav-item btn-login"><a class="nav-link btn btn-primary btn-sm m-1 "#}
-{#                                href="{% url 'register' %}"> تسجيل </a></li>#}
-{#                    </ul>#}
-{#                    {% endif %}#}
+                    {% else %}
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item btn-sigin"><a class="nav-link btn btn-outline-success btn-sm m-1"
+                                href=""> تسجيل دخول</a></li>
+                        <li class="nav-item btn-login"><a class="nav-link btn btn-primary btn-sm m-1 "
+                                href=""> تسجيل </a></li>
+                    </ul>
+                    {% endif %}
 
                 </div>
             </nav>
