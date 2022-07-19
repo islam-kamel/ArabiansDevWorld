@@ -1,7 +1,5 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
-from logging_manager import eventslog
 from tag_system.serializer import FollowTagsSerializers
 from user_profile.serializer import (
     AddressSerializer,
@@ -11,8 +9,6 @@ from user_profile.serializer import (
     PhoneSerializer,
     SkillsSerializer,
 )
-
-logger = eventslog.logger
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,11 +44,3 @@ class UserSerializer(serializers.ModelSerializer):
             "address",
             "follow_tag",
         ]
-
-
-class UserShortSerializer(serializers.ModelSerializer):
-    name = NameSerializer(required=False)
-
-    class Meta:
-        model = get_user_model()
-        fields = ["pk", "name"]

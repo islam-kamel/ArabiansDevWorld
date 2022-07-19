@@ -5,11 +5,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from logging_manager import eventslog
-
-# from newsfeed.models import Tag
-logger = eventslog.logger
-
 
 class CustomUserManager(BaseUserManager):
     """
@@ -59,12 +54,8 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    email = models.EmailField(
-        verbose_name="Email", max_length=255, unique=True
-    )
-    username = models.CharField(
-        verbose_name="Username", max_length=50, unique=True
-    )
+    email = models.EmailField(verbose_name="Email", max_length=255, unique=True)
+    username = models.CharField(verbose_name="Username", max_length=50, unique=True)
     date_of_birth = models.DateField()
     join_date = models.DateTimeField(auto_now=timezone.now)
 
