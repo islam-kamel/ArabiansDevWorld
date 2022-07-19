@@ -15,8 +15,7 @@ logger = eventslog.logger
 class CreateUserView(APIView):
     permission_classes = [AllowAny]
 
-    @staticmethod
-    def post(request):
+    def post(self, request):
         serializer = CreateUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.create(serializer.validated_data)
@@ -30,14 +29,11 @@ class CreateUserView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UpdateUserView(APIView):
+class UpdateUserInfo(APIView):
     permission_classes = [IsOwner]
 
-    @staticmethod
-    def put(request):
-        user_object = get_user_model().objects.get(
-            username=request.data["username"]
-        )
+    def put(self, request, username):
+        user_object = get_user_model().objects.get(username=username)
         serializer = UserSerializer(instance=user_object, data=request.data)
         if serializer.is_valid():
             serializer.update(

@@ -10,6 +10,7 @@ class EmailModelBackend(ModelBackend):
     """
 
     def authenticate(self, request, username=None, password=None, **kwargs):
+        print("here")
         logger = eventslog.logger
         try:
             if username is not None:
