@@ -8,7 +8,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     # post_tags = TagsSerializer(many=True, read_only=True)
     # post_comments = CommentSerializer(many=True, read_only=True)
-    user_id = serializers.IntegerField(required=True)
+    user = UserShortSerializer(read_only=True)
     slug = serializers.SlugField(required=False)
 
     class Meta:
@@ -22,7 +22,7 @@ class PostSerializer(serializers.ModelSerializer):
             "published_at",
             "update_at",
             "status",
-            "user_id",
+            "user",
             # "post_comments",
         ]
 
