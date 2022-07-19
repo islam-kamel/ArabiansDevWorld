@@ -4,23 +4,35 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:
-      - id: check-yaml
-      - id: trailing-whitespace
-      - id: check-executables-have-shebangs
-      - id: debug-statements
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-case-conflict
       - id: check-merge-conflict
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
       - id: end-of-file-fixer
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v2.29.1
+      - id: mixed-line-ending
+      - id: check-vcs-permalinks
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
     hooks:
-      - id: pyupgrade
-        args: ["--py36-plus"]
+      - id: python-check-mock-methods
+      - id: python-no-log-warn
+      - id: python-use-type-annotations
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v1.2.5
+    hooks:
+      - id: pycln
+        args: [--all]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
       - id: black
-        args: [--safe, -l 79]
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.10.1
     hooks:
-      - id: flake8
+      - id: isort
+        args: ["--profile", "black"]
