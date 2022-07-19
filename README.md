@@ -15,7 +15,19 @@
 وبالطبع انشاء مشروع `APIs`
 
 ### user_read_api : URLs
+```shell
+GET:     users/list       `Admin only`
+GET:     users/<username>
 ```
-GET:    users/list       `Admin only`
-GET:    users/<user_name>
+### user_write_api : URLs
+```shell
+POST:     users/list       `Admin only`
+PUT:      users/<username>
+POST:     token            `genration token`
+POST:     token/refresh    `Refresh token`
+```
+### feed_read_api : URLs
+```shell
+GET:      feed/                         `View All Posts`
+GET:      feed/<post_slug>-<post_id>    `Read post and allow PUT, DELETE`
 ```
