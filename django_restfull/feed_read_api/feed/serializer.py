@@ -32,23 +32,6 @@ class PostSerializer(serializers.ModelSerializer):
         return post
 
 
-class PostUpdateSerializer(serializers.ModelSerializer):
-    """Post serializer for only update post date"""
-
-    title = serializers.CharField(required=False)
-    content = serializers.CharField(required=False)
-
-    class Meta:
-        model = Post
-        fields = ["title", "content"]
-
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get("title", instance.title)
-        instance.content = validated_data.get("content", instance.content)
-        instance.save()
-        return instance
-
-
 class PostListSerializer(serializers.ModelSerializer):
     """Post list serializer with limit data to optimize response"""
 
