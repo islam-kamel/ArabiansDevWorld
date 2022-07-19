@@ -1,4 +1,5 @@
 import requests
+from blog.url_request import send_request
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
@@ -8,7 +9,7 @@ from django.views.generic.edit import FormView
 from .forms import PostCreateView, PostUpdateView
 from .models import Post
 
-read_post_url = "http://127.0.0.2:8001/feed/"
+read_post_url = "http://172.23.0.8:8000/feed/"
 
 
 def landing_page(request):
@@ -16,7 +17,7 @@ def landing_page(request):
 
 
 def home(request):
-    posts = requests.get(read_post_url).json()
+    posts = send_request(read_post_url)
     paginator = Paginator(posts, 5)
     page = request.GET.get("page")
     try:

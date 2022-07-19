@@ -6,20 +6,57 @@ services:
     expose:
       - 8000
     volumes:
-      - ./django_client/:/usr/src/app/
+      - ./django_client/blog_services/:/usr/src/app/
       - client_static_files:/usr/src/app/staticfiles
 
-  api_web:
+  user_write_api:
     build:
-      context: ./django_restfull/
+      context: ./django_restfull/user_write_api/
     command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
     expose:
       - 8000
     volumes:
-      - ./django_restfull/:/usr/src/app/
+      - ./django_restfull/user_write_api/:/usr/src/app/
       - api_static_files:/usr/src/app/staticfiles
     depends_on:
       - db
+
+  user_read_api:
+    build:
+      context: ./django_restfull/user_read_api
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    volumes:
+      - ./django_restfull/user_read_api/:/usr/src/app/
+      - api_static_files:/usr/src/app/staticfiles
+    depends_on:
+      - db
+
+  feed_write_api:
+    build:
+      context: ./django_restfull/feed_write_api/
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    volumes:
+      - ./django_restfull/feed_write_api/:/usr/src/app/
+      - api_static_files:/usr/src/app/staticfiles
+    depends_on:
+      - db
+
+  feed_read_api:
+    build:
+      context: ./django_restfull/feed_read_api/
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    volumes:
+      - ./django_restfull/feed_read_api/:/usr/src/app/
+      - api_static_files:/usr/src/app/staticfiles
+    depends_on:
+      - db
+
 
   nginx:
     build:
@@ -30,6 +67,7 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - client_static_files:/home/app/client/staticfiles
       - api_static_files:/home/app/api/staticfiles
+
   dns:
     build:
       context: ./dns/
@@ -47,7 +85,7 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=arabclub_db
+      - POSTGRES_DB=arabians_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=whiskey
     container_name: postgres_db
