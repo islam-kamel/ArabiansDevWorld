@@ -10,9 +10,9 @@
         <link rel="stylesheet" href="{% static 'blog/css/colors.min.css' %}">
         <link rel="shortcut icon" href="{% static 'blog/images/street.ico' %}">
         {% if title %}
-        <title>المنطقة | {{title}}</title>
+        <title>{{ title }}</title>
         {% else %}
-        <title>المنطقة | 312</title>
+        <title>ArabiansDevWorld</title>
         {% endif %}
     </head>
 
@@ -46,25 +46,25 @@
 {#                            <a class="nav-link text-dark" href="{% url 'about' %}">من نحن ؟</a>#}
 {#                        </li>#}
 {#                    </ul>#}
+
                     {% if user.is_authenticated %}
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item btn-sigin user-btn "><a class="nav-link btn btn-outline-success btn-sm m-1 "
                                 href="">تدوينة جديدة</a></li>
                         <li class="nav-item btn-sigin"><a class="nav-link btn btn-outline-success btn-sm m-1 "
-                                href="">{{user.username}} <img class="img-fluid  rounded-circle"
+                                href="">{{request.session.full_name}} <img class="img-fluid  rounded-circle"
                                     style="width: 25px; height:  28px" src="{{user.profile.image.url}}" alt=""> </a> </li>
                         <li class="nav-item btn-login user-btn  "><a class="nav-link; btn btn-primary btn-sm m-1 "
-                                href=""> تسجيل خروج </a></li>
+                                href="{% url 'logout' %}"> تسجيل خروج </a></li>
                     </ul>
                     {% else %}
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item btn-sigin"><a class="nav-link btn btn-outline-success btn-sm m-1"
-                                href=""> تسجيل دخول</a></li>
+                                href="{% url 'login' %}"> تسجيل دخول</a></li>
                         <li class="nav-item btn-login"><a class="nav-link btn btn-primary btn-sm m-1 "
-                                href=""> تسجيل </a></li>
+                                href="{% url 'register' %}"> تسجيل </a></li>
                     </ul>
                     {% endif %}
-
                 </div>
             </nav>
             <!--End Navbar-->
@@ -171,15 +171,6 @@
 
         </footer>
 
-        <script>
-            let url = 'http://127.0.0.1:8000/list'
-            fetch(url, {
-                headers: {
-                    'Authorization':
-                        ' Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU4NTE0Mzg0LCJpYXQiOjE2NTc5MDk1ODQsImp0aSI6ImIzMDY2YmM1YmZiMDRkM2NiZWI1Y2JjNTg0NWVjNDM0IiwidXNlcm5hbWUiOiJpc2xhbSJ9.ktAVZCFXMfbyE6qCmIAdyh3LunaLF_h-JKriRdVZnts'
-                }
-            }).then(res => console.log(res.json()))
-        </script>
         <script src="{% static 'blog/js/jquery-3.5.1.slim.min.js' %}"></script>
         <script src="{% static 'blog/js/popper.min.js' %}"></script>
         <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>

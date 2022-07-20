@@ -14,7 +14,7 @@
         src="" alt="صورة الناشر">
     <div class="row bg- p-2 pb-0  ">
         <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 text-light ">
-            <span>أسم الناشر : {{post.user.name.first_name}} {{ post.user.name.last_name }}</span>
+            <span>أسم الناشر: {{post.user.name.first_name}} {{ post.user.name.last_name }}</span>
         </div>
 
         <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 text-xl-left text-lg-left text-md-left text-sm-left text-light">
@@ -22,7 +22,6 @@
         </div>
     </div>
     <div class="alert alert-light">
-        {{ post.slug|valid_url:post.pk }}
         <h3 class="text-dark font-weight-bolder" id="post"><a href="{%  url 'detail' post.slug|valid_url:post.pk %}">{{post.title}}</a></h3>
         <p>{{post.content|safe|truncatewords:35}}</p>
         <a href="{{ post.slug }}"> <button class="btn badge-primary"> أقراء المزيد</button></a>
@@ -36,7 +35,5 @@
     post.addEventListener("click", (target) => {
         window.location.href = `${post_details_url}/${target.target.getAttribute("href")}`
     })
-    fetch('http://api.arabiansdevworld.com')
-        .then(res => console.log(res))
 </script>
 {% endblock content %}

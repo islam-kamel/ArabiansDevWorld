@@ -9,7 +9,7 @@ from django.views.generic.edit import FormView
 from .forms import PostCreateView, PostUpdateView
 from .models import Post
 
-read_post_url = "http://172.23.0.8:8000/feed/"
+read_post_url = "http://127.23.0.8:8004/feed/"
 
 
 def landing_page(request):

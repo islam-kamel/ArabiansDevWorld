@@ -25,7 +25,6 @@ SECRET_KEY = "django-insecure-h(_qk4q0kfcdpza2^h*^rm_r%5bs$g*8qm87k#r)3^&mp%o0td
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "markdownify.apps.MarkdownifyConfig",
     "blog",
+    "user",
 ]
 
 
@@ -50,6 +50,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+AUTH_USER_MODEL = "user.User"
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "user.backends.EmailModelBackend",
 ]
 
 ROOT_URLCONF = "core.urls"
@@ -77,8 +82,12 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "arabians_db",
+        "HOST": "localhost",
+        "USER": "postgres",
+        "PASSWORD": "whiskey",
+        "PORT": "5432",
     }
 }
 
@@ -121,12 +130,16 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# AUTH_USER_MODEL = 'user.User'
+
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 PLUGINS = [
     "pelican.plugins.jinja_filters",
 ]
+
 MARKDOWNIFY = {
     "default": {
         "WHITELIST_TAGS": [
@@ -174,3 +187,5 @@ MARKDOWNIFY = {
         ],
     },
 }
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_AGE = 604800  # 7 Days
