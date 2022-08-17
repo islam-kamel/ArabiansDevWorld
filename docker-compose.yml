@@ -9,6 +9,10 @@ services:
       - ./django_client/blog_services/:/usr/src/app/
       - client_static_files:/usr/src/app/staticfiles
 
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.1
+
   user_write_api:
     build:
       context: ./django_restfull/user_write_api/
@@ -18,6 +22,9 @@ services:
     volumes:
       - ./django_restfull/user_write_api/:/usr/src/app/
       - api_static_files:/usr/src/app/staticfiles
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.2
     depends_on:
       - db
 
@@ -30,6 +37,9 @@ services:
     volumes:
       - ./django_restfull/user_read_api/:/usr/src/app/
       - api_static_files:/usr/src/app/staticfiles
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.3
     depends_on:
       - db
 
@@ -42,6 +52,9 @@ services:
     volumes:
       - ./django_restfull/feed_write_api/:/usr/src/app/
       - api_static_files:/usr/src/app/staticfiles
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.4
     depends_on:
       - db
 
@@ -54,9 +67,11 @@ services:
     volumes:
       - ./django_restfull/feed_read_api/:/usr/src/app/
       - api_static_files:/usr/src/app/staticfiles
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.5
     depends_on:
       - db
-
 
   nginx:
     build:
@@ -67,7 +82,9 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - client_static_files:/home/app/client/staticfiles
       - api_static_files:/home/app/api/staticfiles
-
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.6
   dns:
     build:
       context: ./dns/
@@ -79,17 +96,32 @@ services:
       - ./dns/named.conf:/etc/bind/named.conf
       - ./dns/zone/:/etc/bind/zone/
     command: named -c /etc/bind/named.conf -g -u named
-
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.7
   db:
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
+    networks:
+      appNetwork:
+        ipv4_address: 172.13.7.9
     environment:
       - POSTGRES_DB=arabians_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=whiskey
     container_name: postgres_db
 
+    
+
 volumes:
   client_static_files:
   api_static_files:
+
+networks:
+  appNetwork:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.13.7.0/16"
