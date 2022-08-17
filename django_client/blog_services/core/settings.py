@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "markdownify.apps.MarkdownifyConfig",
-    "blog",
+    "feed",
     "user",
+    "user_profile",
 ]
 
 
@@ -80,16 +81,16 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "arabians_db",
-        "HOST": "localhost",
-        "USER": "postgres",
-        "PASSWORD": "whiskey",
-        "PORT": "5432",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "arabians_db",
+#         "HOST": "db",
+#         "USER": "postgres",
+#         "PASSWORD": "whiskey",
+#         "PORT": "5432",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

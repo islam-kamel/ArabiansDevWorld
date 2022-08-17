@@ -1,4 +1,4 @@
-{% extends "blog/base.html" %}
+{% extends "feed/base.html" %}
 {% load post_tag %}
 {% block content %}
 {% if messages  %}
@@ -28,12 +28,5 @@
     </div>
 </div>
 {% endfor %}
-{% include 'blog/pagination.html' with page=posts %}
-<script>
-    const post_details_url = 'http://127.0.0.2:8001/'
-    const post = document.getElementById('post')
-    post.addEventListener("click", (target) => {
-        window.location.href = `${post_details_url}/${target.target.getAttribute("href")}`
-    })
-</script>
+{% include 'feed/pagination.html' with page=posts %}
 {% endblock content %}

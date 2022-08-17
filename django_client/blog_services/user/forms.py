@@ -1,7 +1,6 @@
 from django import forms
-
-# from .models import Profile
 from django.contrib.auth.models import User
+from user_profile.models import Name
 
 
 class UserCreationForm(forms.ModelForm):
@@ -59,16 +58,18 @@ class UserCreationForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    first_name = forms.CharField(label="الأسم الأول")
-    last_name = forms.CharField(label="الأسم الثاني")
     email = forms.EmailField(label="البريد الإلكتروني")
+    date_of_birth = forms.DateField(label="تاريخ الميلاد")
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email")
+        fields = ("email", "date_of_birth")
 
 
-# class ProfileUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = Profile
-#         fields = ("image", "image_cover")
+class ProfileUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(label="اسمك")
+    last_name = forms.CharField(label="اسم العائلة")
+
+    class Meta:
+        model = Name
+        fields = ("first_name", "last_name")

@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="{% static 'blog/css/colors.min.css' %}">
     <link rel="shortcut icon" href="{% static 'blog/images/street.ico' %}">
     {% if title %}
-    <title>المنطقة | {{title}}</title>
+    <title>{{title}}</title>
     {% else %}
-    <title>المنطقة | 312</title>
+    <title>ArabiansDevWorld</title>
     {% endif %}
 </head>
 
@@ -85,10 +85,10 @@
     {% endif %}
     <div class=" container-fluid p-3">
         <div class="card">
-            <img src="{{user.profile.image_cover.url}}" class="card-img" alt="...">
+                <img src="https://via.placeholder.com/150" class="card-img-top card-img" style="max-height: 200px" alt="...">
         </div>
         <div class="text-center border-bottom">
-            <div class=" user-photo ">
+            <div class="  ">
                 <img class="img-fluid bg-dark rounded-circle m-2 image-user  img-thumbnail"
                     style="border:none; width: 170px; height:  170px" src="{{user.profile.image.url}}"
                     alt="صورة الناشر">
@@ -124,7 +124,7 @@
                 <h4 class="text-center">لايوجد تدوينات</h4>
                 {% endfor %}
 
-                {% include 'blog/pagination.html' with page=post_list %}
+                {% include 'feed/pagination.html' with page=post_list %}
             </div>
         </div>
 

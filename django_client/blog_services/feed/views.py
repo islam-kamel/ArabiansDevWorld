@@ -1,19 +1,19 @@
 import requests
-from blog.url_request import send_request
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
 from django.views.generic import DeleteView, UpdateView
 from django.views.generic.edit import FormView
+from feed.url_request import send_request
 
 from .forms import PostCreateView, PostUpdateView
 from .models import Post
 
-read_post_url = "http://127.23.0.8:8004/feed/"
+read_post_url = "http://172.13.7.5:8000/feed/"
 
 
 def landing_page(request):
-    return render(request, "blog/landing_page.html")
+    return render(request, "feed/landing_page.html")
 
 
 def home(request):
@@ -31,53 +31,54 @@ def home(request):
         "posts": posts,
         "page": page,
     }
-    return render(request, "blog/index.html", context)
+    return render(request, "feed/index.html", context)
 
 
 def about(request):
-    return render(request, "blog/about.html", {"title": "من نحن؟"})
+    return render(request, "feed/about.html", {"title": "من نحن؟"})
 
 
 def post_detail(request, slug):
     post = requests.get(read_post_url + slug).json()
+    print(post)
     context = {
         "post": post,
     }
-    return render(request, "blog/detail.html", context)
+    return render(request, "feed/detail.html", context)
 
 
-class PostCreateView(FormView):
-    template_name = "blog/new_post.html"
-    form_class = PostCreateView
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
-
-
-# class PostCreateView(LoginRequiredMixin, CreateView):
-#     model = Post
-#     template_name = "blog/new_post.html"
+# class PostCreateView(FormView):
+#     template_name = "feed/new_post.html"
 #     form_class = PostCreateView
-#
-#     def get(self, request, *args, **kwargs):
-#         print(request.user)
 #
 #     def form_valid(self, form):
 #         form.instance.author = self.request.user
 #         return super().form_valid(form)
 
 
+class PostCreateView(LoginRequiredMixin, PostCreateView, FormView):
+    model = Post
+    template_name = "feed/new_post.html"
+    form_class = PostCreateView
+
+    # def get(self, request, *args, **kwargs):
+    #     print(request.user)
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    template_name = "blog/post_update.html"
+    template_name = "feed/post_update.html"
     form_class = PostUpdateView
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    def test_func(self):
+    def post(self, request, *args, **kwargs):
         post = self.get_object()
         if self.request.user == post.author:
             return True

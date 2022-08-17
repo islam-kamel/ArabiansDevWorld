@@ -1,4 +1,4 @@
-{% extends "blog/base.html" %}
+{% extends "feed/base.html" %}
 {% block content %}
 {% load crispy_forms_tags %}
 
@@ -16,6 +16,7 @@
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{user_form|crispy}}
+        {{ profile_form|crispy }}
         <div>
             <span class="d-block mb-2">الصورة الشخصية</span>
             <label for="image" class="btn btn-outline-primary">أختر الصورة الشخصية</label>
@@ -26,7 +27,6 @@
                 accept="image/*" class="btn btn-primary">
         </div>
         <input class="btn btn-primary mt-3  col-sm-12 col-md-2" type="submit" value="تعديل">
-
     </form>
 </div>
 {% endblock content %}

@@ -2,16 +2,17 @@ from datetime import datetime, timedelta
 
 import jwt
 import requests
-from blog.models import Post
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
+from feed.models import Post
+from user_profile.models import Name
 
-from .forms import UserCreationForm
+from .forms import ProfileUpdateForm, UserCreationForm, UserUpdateForm
 
-LOGIN_API_URL = "http://127.0.0.2:8001/token"
+LOGIN_API_URL = "http://172.20.0.7:8000/token"
 SECRET_KEY = "django-insecure-l2mx!ysmhtsq2%hl09ty(=6bc_&a!xo!uv^-v%nkx-ou=(*i)8"
 
 
@@ -44,6 +45,7 @@ def login_user(request):
             "username": request.POST["username"],
             "password": request.POST["password"],
         }
+        print(data)
         user = authenticate(**data)
         login(request, user)
         response = requests.post(LOGIN_API_URL, data=data, timeout=5)
@@ -53,8 +55,7 @@ def login_user(request):
             request.session["access"] = access
             request.session["refresh"] = refresh
             request.session["full_name"] = token_info.get("full_name")
-            response = redirect("home")
-            return response
+            return redirect("home")
         else:
             messages.warning(request, "أسم المستخدم أو كلمة المرور خطاء")
 
@@ -74,7 +75,7 @@ def logout_user(request):
 
 @login_required(login_url="login")
 def profile(request):
-    posts = Post.objects.filter(author=request.user)
+    posts = Post.objects.filter(user_id=request.user.id)
     paginator = Paginator(posts, 5)
     page = request.GET.get("page")
     try:
@@ -96,28 +97,26 @@ def profile(request):
     )
 
 
-#
-# def profile_update(request):
-#     if request.method == "POST":
-#         user_form = UserUpdateForm(request.POST, instance=request.user)
-#         profile_form = ProfileUpdateForm(
-#             request.POST, request.FILES, instance=request.user.profile
-#         )
-#         if user_form.is_valid and profile_form.is_valid:
-#             user_form.save()
-#             profile_form.save()
-#             messages.success(request, "تم تحديث الملف الشخصي")
-#             return redirect("profile")
-#     else:
-#         user_form = UserUpdateForm(instance=request.user)
-#         profile_form = ProfileUpdateForm(instance=request.user.profile)
-#
-#     context = {
-#         "title": "تعديل الملف الشخصي",
-#         "user_form": user_form,
-#         "profile_form": profile_form,
-#     }
-#     return render(request, "user/profile_update.html", context)
+def profile_update(request):
+    instance = Name.objects.get(user_id=request.user.id)
+    if request.method == "POST":
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=instance)
+        if user_form.is_valid and profile_form.is_valid:
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "تم تحديث الملف الشخصي")
+            return redirect("profile")
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=instance)
+
+    context = {
+        "title": "تعديل الملف الشخصي",
+        "user_form": user_form,
+        "profile_form": profile_form,
+    }
+    return render(request, "user/profile_update.html", context)
 
 
 def set_cookie(response, name: str, access, exp):
