@@ -16,27 +16,19 @@ I will do my own client project `Client` which is responsible for displaying dat
 
 Of course, the `APIs` project was established.
 
-### user_read_api : URLs
+### user_api : URLs
 ```shell
-GET:     users/list       `Admin only`
-GET:     users/<username>
-```
-### user_write_api : URLs
-```shell
-POST:     users/list       `Admin only`
-PUT:      users/<username>
-POST:     token            `genration token`
-POST:     token/refresh    `Refresh token`
+POST:     users/list        `Admin only`
+GET:      users/<username>  `Get User info` 
+PUT:      users/<username>  `Update User info`
+POST:     token             `genration token`
+POST:     token/refresh     `Refresh token`
 ```
 
-### feed_read_api : URLs
+### feed_api : URLs
 ```shell
 GET:      feed/                         `View All Posts`
 GET:      feed/<post_slug>-<post_id>    `Read Post`
-```
-
-### feed_write_api : URLs
-```shell
 POST:     feed/                         `View All Posts`
 PUT:      feed/<post_slug>-<post_id>    `Update Post`
 DELETE:   feed/<post_slug>-<post_id>    `Delete Post`
