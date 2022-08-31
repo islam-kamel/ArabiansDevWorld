@@ -1,0 +1,30 @@
+{% extends "feed/base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="border  p-4 mb-3  ">
+    <legend class="border-bottom   mb-4 pb-2">تدوينة جديدة</legend>
+    <form method="post" id="create_post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input class="btn btn-primary mt-3 " type="submit" value="نشر" onsubmit="create_post">
+    </form>
+</div>
+
+{#    <script>#}
+{#        const form = document.getElementById('create_post')#}
+{#        const data = {}#}
+{#        const create_url = "http://127.0.0.3:8002/"#}
+{#        form.addEventListener('submit', (e) => {#}
+{#            e.preventDefault()#}
+{#            for (ele = 1; ele < form.elements.length; ele++){#}
+{#                if (form.elements[ele].value !== 'نشر'){#}
+{#                    data[form.elements[ele].name] = form.elements[ele].value#}
+{#                }#}
+{#            }#}
+{#        })#}
+{##}
+{#        const send_request = (data) => {#}
+{##}
+{#        }#}
+{#    </script>#}
+{% endblock content %}

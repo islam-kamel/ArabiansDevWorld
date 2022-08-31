@@ -1,0 +1,6 @@
+.container-fluid {
+    height: 200px;
+    padding: 0 ;
+    margin: 0;
+    overflow: hidden;
+}
