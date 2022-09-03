@@ -38,4 +38,4 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, allow_unicode=True)
-        super().save(*args, **kwargs)
+        super(Post, self).save(*args, **kwargs)
