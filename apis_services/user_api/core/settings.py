@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "user",
     "tag_system",
     "user_profile",
-    'drf_yasg'
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -164,16 +164,13 @@ REST_FRAMEWORK = {
 }
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
     }
 }
 
-LOGIN_URL = 'http://127.0.0.2:8001/api/v1/token'
+LOGIN_URL = "http://127.0.0.2:8001/api/v1/token"
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
