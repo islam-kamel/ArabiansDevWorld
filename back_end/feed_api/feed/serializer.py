@@ -35,8 +35,7 @@ class PostCreateSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        title = validated_data.get("title")
-        post = Post.objects.create(**validated_data, slug=title.replace(" ", "-"))
+        post = Post.objects.create(**validated_data)
         return post
 
 

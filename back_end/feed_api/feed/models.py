@@ -11,8 +11,8 @@ STATUS_CHOICES = (
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=150, verbose_name="Title")
-    content = models.TextField(verbose_name="content")
+    title = models.CharField(max_length=150, verbose_name="Title", null=False)
+    content = models.TextField(verbose_name="content", null=False)
     published_at = models.DateTimeField(auto_now_add=timezone.now)
     update_at = models.DateTimeField(auto_now=timezone.now)
     status = models.CharField(max_length=9, choices=STATUS_CHOICES, default="published")
@@ -22,8 +22,7 @@ class Post(models.Model):
     class Meta:
         ordering = ("-published_at",)
         indexes = [
-            models.Index(fields=["status"]),
-            models.Index(fields=["published_at"]),
+            models.Index(fields=["id"]),
         ]
 
     def __str__(self):
@@ -38,4 +37,4 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, allow_unicode=True)
-        super().save(*args, **kwargs)
+        super(Post, self).save(*args, **kwargs)
