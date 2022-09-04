@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from logging_manager import eventslog
 from permissions.permissions import IsOwner
 from rest_framework import status
@@ -20,6 +21,9 @@ logger = eventslog.logger
 class CreateUserView(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(
+        operation_summary="Create new user", request_body=CreateUserSerializer
+    )
     def post(self, request):
         serializer = CreateUserSerializer(data=request.data)
         if serializer.is_valid():
@@ -45,6 +49,9 @@ class UserDetailsView(APIView):
         serializer = UserSerializer(obj, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        operation_summary="Create new user", request_body=UserSerializer
+    )
     def put(self, request, username):
         user_object = self.get_object(username)
         serializer = UserSerializer(instance=user_object, data=request.data)
