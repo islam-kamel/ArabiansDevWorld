@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "user",
     "tag_system",
     "user_profile",
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
+
+AUTH_USER_MODEL = "user.User"
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "user.backends.EmailModelBackend",
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -155,12 +163,17 @@ REST_FRAMEWORK = {
     ],
 }
 
-AUTH_USER_MODEL = "user.User"
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "user.backends.EmailModelBackend",
-]
+LOGIN_URL = 'http://127.0.0.2:8001/api/v1/token'
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=7),

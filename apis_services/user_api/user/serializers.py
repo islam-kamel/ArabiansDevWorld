@@ -206,7 +206,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
-        token = super().get_token(user)
+        token = super(MyTokenObtainPairSerializer).get_token(user)
         token["id"] = user.id
         token["username"] = user.username
         try:
