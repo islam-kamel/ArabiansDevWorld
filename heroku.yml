@@ -1,0 +1,3 @@
+build:
+  docker:
+    web: ./apis_services/feed_api/Dockerfile
