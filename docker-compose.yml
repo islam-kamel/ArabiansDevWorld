@@ -1,0 +1,63 @@
+services:
+  user_api:
+    build:
+      context: ./apis_services/user_api/
+
+    env_file:
+      - .env
+
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    volumes:
+      - ./apis_service/user_api/:/usr/src/app/
+      - user_staticfiles:/usr/src/app/staticfiles
+
+    depends_on:
+      - db
+
+  feed_api:
+    build:
+      context: ./apis_services/feed_api/
+
+    env_file:
+      - .env
+
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+
+    expose:
+      - 8000
+
+    volumes:
+      - ./apis_services/feed_api/:/usr/src/app/
+      - feed_staticfiles/:/usr/src/app/staticfiles
+
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx/
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - user_staticfiles:/home/app/feed/staticfiles
+      - feed_staticfiles:/home/app/user/staticfiles
+
+
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+    environment:
+      - POSTGRES_DB=arabians_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=whiskey
+    container_name: postgres_db
+
+
+volumes:
+  user_staticfiles:
+  feed_staticfiles:
