@@ -31,8 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOWED_ORIGINS = []
-CORS_ALLOWED_ORIGIN_REGEXES = []
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -54,10 +52,10 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework_simplejwt",
     "rest_framework",
+    "drf_yasg",
     "user",
     "tag_system",
     "user_profile",
-    "drf_yasg",
 ]
 
 MIDDLEWARE = [

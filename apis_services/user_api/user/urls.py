@@ -4,8 +4,8 @@ from django.urls import path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework_simplejwt.views import TokenRefreshView
-from user.views import CreateUserView, MyTokenObtainPairView, UserDetailsView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from user.views import CreateUserView, UserDetailsView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -23,10 +23,12 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path(
-        "doc", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"
+        "user/doc",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
     ),
-    path("register", CreateUserView.as_view(), name="create_user"),
-    path("users/<str:username>", UserDetailsView.as_view(), name="user_details"),
-    path("token", MyTokenObtainPairView.as_view(), name="sign_in"),
-    path("token/refresh", TokenRefreshView.as_view(), name="refresh_token"),
+    path("user/register", CreateUserView.as_view(), name="create_user"),
+    path("user/<str:username>", UserDetailsView.as_view(), name="user_details"),
+    path("user/token/", TokenObtainPairView.as_view(), name="sign_in"),
+    path("user/token/refresh", TokenRefreshView.as_view(), name="refresh_token"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
