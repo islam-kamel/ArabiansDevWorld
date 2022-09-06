@@ -3,6 +3,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,venv,pycharm
 ### Loging ###
 *.log
+staticfiles/
+apis_service/
 
 ### archive ###
 archive/

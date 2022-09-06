@@ -31,8 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOWED_ORIGINS = []
-CORS_ALLOWED_ORIGIN_REGEXES = []
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = [
     "DELETE",
@@ -54,10 +52,10 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework_simplejwt",
     "rest_framework",
+    "drf_yasg",
     "user",
     "tag_system",
     "user_profile",
-    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -106,7 +104,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "arabians_db",
-        "HOST": "localhost",
+        "HOST": "db",
         "USER": "postgres",
         "PASSWORD": "whiskey",
         "PORT": "5432",
@@ -147,6 +145,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"

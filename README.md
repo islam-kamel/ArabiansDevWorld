@@ -25,18 +25,37 @@
 
 ### user_api : URLs
 ```shell
-POST:     users/list        `Admin only`
-GET:      users/<username>  `Get User info` 
-PUT:      users/<username>  `Update User info`
-POST:     token             `genration token`
-POST:     token/refresh     `Refresh token`
+POST:            api/v1/user/register     `Create New User`
+[GET, PUT]:      api/v1/user/<username>   `Get User info and update user info` 
+POST:            api/v1/token             `genration token`
+POST:            api/v1/token/refresh     `Refresh token`
 ```
 
 ### feed_api : URLs
 ```shell
-GET:      feed/                         `View All Posts`
-GET:      feed/<post_slug>-<post_id>    `Read Post`
-POST:     feed/                         `View All Posts`
-PUT:      feed/<post_slug>-<post_id>    `Update Post`
-DELETE:   feed/<post_slug>-<post_id>    `Delete Post`
+[GET, POST]:      api/v1/feed/                         `View All Posts And Create Post`
+[GET, PUT ]:      api/v1/feed/<post_slug>-<post_id>    `Read Post and update post`
+DELETE:           api/v1/feed/<post_slug>-<post_id>    `Delete Post`
 ```
+
+### API UI
+User Api `api/v1/user/doc`
+
+Feed Api `api/v1/feed/doc`
+
+# تشغيل المشروع في بيئة التطور المحلية
+>  تأكد أولاً من تثبيت Docker علي جهازك [Install Docker](https://docs.docker.com/get-docker/)
+
+```shell
+git clone https://github.com/islam-kamel/ArabiansDevWorld.git
+```
+```shell
+cd ArabiansDevWorld
+```
+```shell
+docker-compose build
+```
+```shell
+docker-compose up
+```
+يمكنك الان فتح هذا الرابط `localhost/api/v1/user/doc`

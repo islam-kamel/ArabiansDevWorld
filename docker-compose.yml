@@ -1,0 +1,63 @@
+services:
+
+
+  user_api:
+    build:
+      context: ./apis_services/user_api/
+    env_file:
+      - .env
+    command: > 
+      bash -c "python manage.py makemigrations && python manage.py migrate &&
+      gunicorn core.wsgi:application --bind 0.0.0.0"
+    expose:
+      - 8000
+    volumes:
+      - ./apis_services/user_api/:/usr/src/app/
+      - userApiStaticfiles:/usr/src/app/staticfiles/
+
+    depends_on:
+      - db
+
+
+  feed_api:
+    build:
+      context: ./apis_services/feed_api/
+    env_file:
+      - .env
+    command: > 
+      bash -c "python manage.py makemigrations && python manage.py migrate &&
+      gunicorn core.wsgi:application --bind 0.0.0.0"
+    expose:
+      - 8000
+    volumes:
+      - ./apis_services/feed_api/:/usr/src/app/
+      - feedApiStaticfiles:/usr/src/app/staticfiles/
+    depends_on:
+      - db
+
+
+  nginx:
+    build:
+      context: ./nginx/
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - feedApiStaticfiles:/home/staticfiles/feed_api/
+      - userApiStaticfiles:/home/staticfiles/user_api/
+
+
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=arabians_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=whiskey
+    container_name: postgres_db
+
+
+volumes:
+  feedApiStaticfiles:
+  userApiStaticfiles:
