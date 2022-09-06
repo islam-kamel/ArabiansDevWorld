@@ -33,19 +33,28 @@ POST:            api/v1/token/refresh     `Refresh token`
 
 ### feed_api : URLs
 ```shell
-[GET, POST]:      api/v1/feed/                          `View All Posts And Create Post`
-[GET, PUT ]:       api/v1/feed/<post_slug>-<post_id>    `Read Post and update post`
-DELETE:           api/v1/feed/<post_slug>-<post_id>     `Delete Post`
+[GET, POST]:      api/v1/feed/                         `View All Posts And Create Post`
+[GET, PUT ]:      api/v1/feed/<post_slug>-<post_id>    `Read Post and update post`
+DELETE:           api/v1/feed/<post_slug>-<post_id>    `Delete Post`
 ```
 
-# تشغيل المشروع في بيئة التطور المحلية
-> علي جهازك Docker تأكد أولاً من تثبيت 
+### API UI
+User Api `api/v1/user/doc`
+Feed Api `api/v1/feed/doc`
 
-[Install Docker](https://docs.docker.com/get-docker/)
+# تشغيل المشروع في بيئة التطور المحلية
+>  تأكد أولاً من تثبيت Docker علي جهازك [Install Docker](https://docs.docker.com/get-docker/)
 
 ```shell
 git clone https://github.com/islam-kamel/ArabiansDevWorld.git
-cd https://github.com/islam-kamel/ArabiansDevWorld.git
+```
+```shell
+cd ArabiansDevWorld
+```
+```shell
 docker-compose build
+```
+```shell
 docker-compose up
 ```
+يمكنك الان فتح هذا الرابط `localhost/api/v1/user/doc`
