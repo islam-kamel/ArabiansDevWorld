@@ -40,6 +40,7 @@ DELETE:           api/v1/feed/<post_slug>-<post_id>    `Delete Post`
 
 ### API UI
 User Api `api/v1/user/doc`
+
 Feed Api `api/v1/feed/doc`
 
 # تشغيل المشروع في بيئة التطور المحلية
