@@ -48,7 +48,8 @@ services:
     environment:
       - POSTGRES_DB=arabians_db
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=whiskey
+      - POSTGRES_PASSWORD=password
+        
     container_name: postgres_db
 
 volumes:
