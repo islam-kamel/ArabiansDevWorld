@@ -44,7 +44,39 @@ User Api `api/v1/user/doc`
 Feed Api `api/v1/feed/doc`
 
 # تشغيل المشروع في بيئة التطور المحلية
->  تأكد أولاً من تثبيت Docker علي جهازك [Install Docker](https://docs.docker.com/get-docker/)
+>   
+- ### متطلبات التشغيل
+    - [Docker](https://docs.docker.com/get-docker/) تثبيت
+    - تجهيز ملف `dotenv`
+
+**Dotenv file ex.**
+```dotenv
+DB_HOST = "db"
+DB_PORT = "5432"
+DB_USER = "postgres"
+DB_PASSWORD = "whiskey"
+DB_NAME = "arabians_db"
+SECRET_KEY = "a*m@xq9jywl_#csypqx&ll#2vnlsvjjg&slhtzl^ycypc2*s68"
+DEBUG = 1
+API_KEY = "PLzKhF9aJEeX1KtkiLUmVyDgrCYnVvXFvZR0TB575j5t8nLVVnkTWe_Nb8K0ntEuktN0G-ga2751Ad-l2nYUqz56zHRttGO6L__QzCc8HjVnIDV1ltiAmbwgrjT1ia0OitmIBQ"
+BASE_URL = "http://localhost/api/v1/"
+FEED_URL = "/feed"
+FEED_DOC_URL = "/feed/doc"
+USER_URL = "api/v1/user/register"
+TOKEN_URL = "api/v1/token"
+REFRESH_TOKEN_URL = "api/v1/token/refresh"
+LOGIN_URL = "http://localhost/api/v1/token"
+ALLOWED_HOSTS = "['*']"
+CORS_ALLOW_ALL_ORIGINS = 1
+CORS_ALLOW_METHODS = '[
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]'
+```
 
 ```shell
 git clone https://github.com/islam-kamel/ArabiansDevWorld.git
