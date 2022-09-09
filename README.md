@@ -1,4 +1,7 @@
-# ArabiansDevWorld 👌
+# ArabiansDevWorld  👨‍💻👌
+**Translation:**
+[Readme EN](README_en.md)
+
 > **"أرابيانس ديف وورلد"** هي أول واجهة برمجة تطبيقات REST في العالم العربي
 > توفر للمطورين منصة يمكنهم استخدامها لتصميم وبناء عالم البرمجة الخاص بهم من المعرفة.
 > ويهدف إلى أن يكون منصة معرفية مفتوحة المصدر يحركها المجتمع للمطورين والمستخدمين العرب
@@ -7,22 +10,59 @@
 > لحل هذه المشكلات ، نقوم بتطوير منصة REST API ومنتدى مفتوح المصدر لربط المطورين من جميع البلدان العربية ،
 > وإبقائهم على اطلاع دائم بأحدث التطورات والأفكار. انضم إلى المجتمع اليوم!
 
-**Translation:**
-[Readme EN](README_en.md)
-
->هذا المشروع هو طموح لانشاء اكبر منصة لتجمع المطورين العرب
->ومهندسي الحاسب الآلي من حول العالم
->لنشر خبراتهم ومساعدة المقدمين علي دخول مجال البرمجة وهندسة الحاسوب
->وتعزيز المحتوي العربي التقني علي الانترنت
-
-سوف اقوم بناء هذا المشروع باستخدام مبادئ  الخدمات المصغرة `Microservices`
+سوف اقوم بناء هذا المشروع باستخدام مبادئ الخدمات  المصغرة `Microservices`
 
 ---
-سوف اقوم بعمل مشروع خاص بي العميل `Client`  وهو مسئول عن عرض البيانات من ال `APIs`
 
-وبالطبع انشاء مشروع `APIs`
+# تشغيل ArabiansDevWorld في بيئة التطور المحلية 👨‍💻 
 
+- ### متطلبات التشغيل 🧾
+    - [Docker 20.10.16](https://docs.docker.com/get-docker/)
+    - [Python v3.10.6](https://www.python.org/)
+    - [Postgresql v14.5](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
+    - إنشاء ملف `dotenv`
 
+in `/ArabiansDevWorld/` create .env file
+
+**Dotenv file ex.**
+
+```dotenv
+DB_HOST = "db"
+DB_NAME = "test"
+DB_USER = "postgres"
+DB_PASSWORD = "password"
+DB_PORT = "5432"
+
+SECRET_KEY = "a*m@xq9jywl_#csypqx&ll#2vnlsvjjg&slhtzl^ycypc2*s68"
+DEBUG = 1
+API_KEY = "PLzKhF9aJEeX1KtkiLUmVyDgrCYnVvXFvZR0TB575j5t8nLVVnkTWe_Nb8K0ntEuktN0G-ga2751Ad-l2nYUqz56zHRttGO6L__QzCc8HjVnIDV1ltiAmbwgrjT1ia0OitmIBQ"
+BASE_URL = "http://localhost/api/v1/"
+FEED_URL = "/feed"
+FEED_DOC_URL = "/feed/doc"
+USER_URL = "api/v1/user/register"
+TOKEN_URL = "api/v1/token"
+REFRESH_TOKEN_URL = "api/v1/token/refresh"
+LOGIN_URL = "http://localhost/api/v1/token"
+ALLOWED_HOSTS = "*"
+CORS_ALLOW_ALL_ORIGINS = 1
+CORS_ALLOW_METHODS = DELETE,GET,OPTIONS,PATCH,POST,PUT
+```
+
+```shell
+git clone https://github.com/islam-kamel/ArabiansDevWorld.git
+```
+```shell
+cd ArabiansDevWorld
+```
+```shell
+docker-compose build
+```
+```shell
+docker-compose up
+```
+---
+
+## روابط الخاصة بالــ APIs 🔗
 ### user_api : URLs
 ```shell
 POST:            api/v1/user/register     `Create New User`
@@ -43,19 +83,12 @@ User Api `api/v1/user/doc`
 
 Feed Api `api/v1/feed/doc`
 
-# تشغيل المشروع في بيئة التطور المحلية
->  تأكد أولاً من تثبيت Docker علي جهازك [Install Docker](https://docs.docker.com/get-docker/)
 
-```shell
-git clone https://github.com/islam-kamel/ArabiansDevWorld.git
-```
-```shell
-cd ArabiansDevWorld
-```
-```shell
-docker-compose build
-```
-```shell
-docker-compose up
-```
-يمكنك الان فتح هذا الرابط `localhost/api/v1/user/doc`
+## جرب 🧪
+`localhost/api/v1/user/doc`
+
+`localhost/api/v1/feed/doc`
+
+---
+
+## ساهم معنا 💖 
