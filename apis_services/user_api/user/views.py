@@ -50,7 +50,7 @@ class UserDetailsView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
-        operation_summary="Create new user", request_body=UserSerializer
+        operation_summary="Update user info", request_body=UserSerializer
     )
     def put(self, request, username):
         user_object = self.get_object(username)
