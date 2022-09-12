@@ -5,6 +5,7 @@
 *.log
 staticfiles/
 apis_service/
+.idea
 
 ### archive ###
 archive/
