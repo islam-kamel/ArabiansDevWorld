@@ -18,8 +18,6 @@
 
 - ### متطلبات التشغيل 🧾
     - [Docker 20.10.16](https://docs.docker.com/get-docker/)
-    - [Python v3.10.6](https://www.python.org/)
-    - [Postgresql v14.5](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
     - إنشاء ملف `dotenv`
 
 in `/ArabiansDevWorld/` create .env file
@@ -60,6 +58,7 @@ docker-compose build
 ```shell
 docker-compose up
 ```
+> لا تنسي انشاء قاعدة بيانات باسم test
 ---
 
 ## روابط الخاصة بالــ APIs 🔗
