@@ -14,6 +14,7 @@ services:
       - userApiStaticfiles:/usr/src/app/staticfiles/
     depends_on:
       - db
+    container_name: user_api
 
   feed_api:
     build:
@@ -30,6 +31,7 @@ services:
       - feedApiStaticfiles:/usr/src/app/staticfiles/
     depends_on:
       - db
+    container_name: feed_api
 
   nginx:
     build:
@@ -40,7 +42,7 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - feedApiStaticfiles:/home/staticfiles/feed_api/
       - userApiStaticfiles:/home/staticfiles/user_api/
-
+    
   db:
     image: postgres
     volumes:
