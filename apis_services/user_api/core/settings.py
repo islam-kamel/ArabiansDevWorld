@@ -30,8 +30,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "user",
-    "tag_system",
-    "user_profile",
+    # "tag_system",
 ]
 
 MIDDLEWARE = [

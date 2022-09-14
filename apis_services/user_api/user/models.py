@@ -7,25 +7,14 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
-    """
-    Custom user serializer manager where email is the unique identifiers
-    for authentication instead of usernames.
-    """
-
     def create_user(self, email, username, date_of_birth, password):
-        """
-        Create and save a User with the given email and username, password.
-        """
-
         if not email:
-            logger.error(_("The Email must be set."))
             raise ValueError(_("The Email must be set."))
 
         pattern = re.compile(
             r"^[a-zA](?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"
         )
         if not re.fullmatch(pattern, username):
-            logger.error(_("Enter Valid Username"))
             raise ValueError(_("Enter Valid Username"))
 
         user = self.model(
@@ -38,10 +27,6 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, username, date_of_birth, password):
-
-        """
-        Create and save a SuperUser with the given email and password.
-        """
         user = self.create_user(
             email=email,
             username=username,
@@ -56,8 +41,17 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser):
     email = models.EmailField(verbose_name="Email", max_length=255, unique=True)
     username = models.CharField(verbose_name="Username", max_length=50, unique=True)
-    date_of_birth = models.DateField()
-    join_date = models.DateTimeField(auto_now=timezone.now)
+    date_of_birth = models.DateField(verbose_name="Date of birth")
+    join_date = models.DateTimeField(auto_now_add=timezone.now, editable=False)
+    full_name = models.CharField(
+        max_length=100, verbose_name="Full name", blank=True, null=True
+    )
+    bio = models.TextField(max_length=500, verbose_name="Bio", blank=True)
+    skills = models.CharField(max_length=100, verbose_name="Your skills.", blank=True)
+    phone = models.CharField(max_length=15, verbose_name="Phone Number", blank=True)
+    github = models.CharField(
+        max_length=150, verbose_name="Github username", blank=True
+    )
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -84,3 +78,10 @@ class User(AbstractBaseUser):
     def is_staff(self):
         """Is the user a member of staff?"""
         return self.is_admin
+
+    def save(self, *args, **kwargs):
+        if self.github != "":
+            self.github = f"https://github.com/{self.github}"
+        if self.skills:
+            self.skills = self.skills.title()
+        super(User, self).save(*args, **kwargs)

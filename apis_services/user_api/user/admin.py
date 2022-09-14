@@ -6,23 +6,10 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
-from tag_system.models import FollowTag
 from user.models import User
-from user_profile.models import (
-    Address,
-    Bio,
-    GitHubAccount,
-    Name,
-    Phone,
-    ProfileImages,
-    Skills,
-)
 
 
 class UserCreationFrom(forms.ModelForm):
-    """A form for creating new users. Includes all the required
-    fields, plus a repeated password."""
-
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(
         label="Password Confirmation", widget=forms.PasswordInput
@@ -30,10 +17,9 @@ class UserCreationFrom(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("email", "username", "date_of_birth", "is_active")
+        fields = ("full_name", "username", "email", "date_of_birth", "is_active")
 
     def clean_username(self):
-        # Check that the username is valid
         username = self.cleaned_data.get("username")
         is_valid = re.search(
             r"^[a-zA](?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$",
@@ -44,7 +30,6 @@ class UserCreationFrom(forms.ModelForm):
         return username
 
     def clean_password2(self):
-        # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
 
@@ -53,7 +38,6 @@ class UserCreationFrom(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        # Save the provided password in hashed format
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
@@ -61,31 +45,26 @@ class UserCreationFrom(forms.ModelForm):
         return user
 
 
-class UserImages(admin.TabularInline):
-    model = ProfileImages
-
-
 class UserChangeForm(forms.ModelForm):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    disabled password hash display field.
-    """
-
     password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = User
         fields = (
+            "full_name",
+            "username",
             "email",
             "password",
-            "username",
             "date_of_birth",
+            "bio",
+            "github",
+            "phone",
+            "skills",
             "is_active",
             "is_admin",
         )
 
     def clean_username(self):
-        # Check that the username is valid
         username = self.cleaned_data.get("username")
         is_valid = re.search(
             r"^[a-zA](?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$",
@@ -96,81 +75,20 @@ class UserChangeForm(forms.ModelForm):
         return username
 
 
-class UserAddNamesForm(admin.TabularInline):
-    """
-    Form for user add first name and last name
-    """
-
-    model = Name
-
-
-class UserPhone(admin.TabularInline):
-    """
-    Add Phone Number for user
-    """
-
-    model = Phone
-
-
-class UserBio(admin.TabularInline):
-    """
-    Add Bio for user
-    """
-
-    model = Bio
-
-
-class UserSkills(admin.TabularInline):
-    """
-    Add skills for user
-    """
-
-    model = Skills
-
-
-class UserAddress(admin.TabularInline):
-    """
-    Add address for user
-    """
-
-    model = Address
-
-
-class UserGitHub(admin.TabularInline):
-    """
-    Add GitHub account for user
-    """
-
-    model = GitHubAccount
-
-
-class UserFollowTags(admin.TabularInline):
-    model = FollowTag
-
-
 class UserAdmin(BaseUserAdmin):
-    # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationFrom
-    inlines = [
-        UserAddNamesForm,
-        UserPhone,
-        UserBio,
-        UserAddress,
-        UserSkills,
-        UserGitHub,
-        UserFollowTags,
-        UserImages,
-    ]
 
-    # The fields to be used in displaying the User serializer.
-    # These override the definitions on the base UserAdmin
-    # that reference specific fields on auth.User.
-    list_display = ("email", "username", "is_admin")
+    readonly_fields = ("join_date",)
+    list_display = ("username", "email", "is_admin")
     list_filter = ("is_admin",)
     fieldsets = (
-        (None, {"fields": ("email", "username", "password")}),
-        ("Personal Info", {"fields": ("date_of_birth",)}),
+        (None, {"fields": ("username", "join_date", "password")}),
+        (
+            "Personal info",
+            {"fields": ("bio", "full_name", "github", "skills", "date_of_birth")},
+        ),
+        ("Contact info", {"fields": ("phone", "email")}),
         (
             "Permissions",
             {
@@ -178,17 +96,20 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
-    # # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
-    # # overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
         (
             None,
             {
                 "classes": ("wide",),
                 "fields": (
-                    "email",
+                    "full_name",
                     "username",
+                    "email",
+                    "bio",
                     "date_of_birth",
+                    "github",
+                    "phone",
+                    "skills",
                     "password1",
                     "password2",
                 ),
@@ -196,12 +117,9 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
     search_fields = ("email", "username")
-    ordering = ("email",)
+    ordering = ("join_date",)
     filter_horizontal = ()
 
 
-# Now register the new UserAdmin...
 admin.site.register(User, UserAdmin)
-# ... and, since we're not using Django's built-in permissions,
-# unregister the Group serializer from admin.
 admin.site.unregister(Group)
