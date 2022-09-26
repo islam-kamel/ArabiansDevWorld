@@ -5,15 +5,15 @@
 *.log
 staticfiles/
 apis_service/
-.idea
+.idea/
+Client.txt
 
 ### archive ###
 archive/
 named_api.txt
-.idea/
 data/
 UI Kit/
-
+.env/
 ### Django ###
 *.log
 *.pot
