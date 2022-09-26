@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     "feed",
     "user",
     "user_profile",
+    "oauth2_provider",
+    "drf_social_oauth2",
 ]
 
 MIDDLEWARE = [
@@ -114,7 +116,9 @@ AUTH_USER_MODEL = "user.User"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
+        # "rest_framework_simplejwt.authentication.JWTAuthentication"
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "drf_social_oauth2.authentication.SocialAuthentication",
     ],
 }
 
