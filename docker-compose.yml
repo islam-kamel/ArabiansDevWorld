@@ -1,4 +1,14 @@
 services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=arabians_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+
+    container_name: postgres_db
   user_api:
     build:
       context: ./apis_services/user_api/
@@ -22,7 +32,7 @@ services:
     env_file:
       - .env
     command: > 
-      bash -c "python manage.py makemigrations && python manage.py migrate &&
+      bash -c "python manage.py makemigrations && python manage.py migrate feed &&
       gunicorn core.wsgi:application --bind 0.0.0.0"
     expose:
       - 8000
@@ -42,17 +52,12 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - feedApiStaticfiles:/home/staticfiles/feed_api/
       - userApiStaticfiles:/home/staticfiles/user_api/
-    
-  db:
-    image: postgres
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=arabians_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
 
-    container_name: postgres_db
+    depends_on:
+      - user_api
+      - feed_api
+
+
 
 volumes:
   feedApiStaticfiles:
