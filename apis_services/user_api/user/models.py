@@ -7,37 +7,29 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
-    """
-    Custom user serializer manager where email is the unique identifiers
-    for authentication instead of usernames.
-    """
-
-    def create_user(self, email, username, date_of_birth, password):
+    # TODO: Fix Date of Birth Bug
+    def create_user(self, email, username, password):
         """
         Create and save a User with the given email and username, password.
         """
 
         if not email:
-            logger.error(_("The Email must be set."))
+            # logger.error(_("The Email must be set."))
             raise ValueError(_("The Email must be set."))
 
         pattern = re.compile(
-            r"^[a-zA](?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"
+            r"^[a-zA](?=[a-zA-Z0-9._-]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"
         )
         if not re.fullmatch(pattern, username):
-            logger.error(_("Enter Valid Username"))
+            # logger.error(_("Enter Valid Username"))
             raise ValueError(_("Enter Valid Username"))
 
-        user = self.model(
-            email=self.normalize_email(email),
-            username=username,
-            date_of_birth=date_of_birth,
-        )
+        user = self.model(email=self.normalize_email(email), username=username)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, date_of_birth, password):
+    def create_superuser(self, email, username, password):
 
         """
         Create and save a SuperUser with the given email and password.
@@ -45,7 +37,7 @@ class CustomUserManager(BaseUserManager):
         user = self.create_user(
             email=email,
             username=username,
-            date_of_birth=date_of_birth,
+            # date_of_birth=date_of_birth,
             password=password,
         )
         user.is_admin = True
@@ -56,8 +48,8 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser):
     email = models.EmailField(verbose_name="Email", max_length=255, unique=True)
     username = models.CharField(verbose_name="Username", max_length=50, unique=True)
-    date_of_birth = models.DateField()
-    join_date = models.DateTimeField(auto_now=timezone.now)
+    date_of_birth = models.DateField(blank=True, null=True)
+    join_date = models.DateTimeField(auto_now=timezone.now, editable=False)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -65,7 +57,7 @@ class User(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "date_of_birth"]
+    REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
         return self.username

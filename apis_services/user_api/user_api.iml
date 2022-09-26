@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="django" name="Django">
+      <configuration>
+        <option name="rootFolder" value="$MODULE_DIR$" />
+        <option name="settingsModule" value="core/settings.py" />
+        <option name="manageScript" value="manage.py" />
+        <option name="environment" value="&lt;map/&gt;" />
+        <option name="doNotUseTestRunner" value="false" />
+        <option name="trackFilePattern" value="migrations" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/env" type="java-resource" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.10 (User API)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="PyNamespacePackagesService">
+    <option name="namespacePackageFolders">
+      <list>
+        <option value="$MODULE_DIR$/core" />
+        <option value="$MODULE_DIR$/tag_system" />
+        <option value="$MODULE_DIR$/user" />
+        <option value="$MODULE_DIR$/user_profile" />
+        <option value="$MODULE_DIR$/../feed_api/core" />
+        <option value="$MODULE_DIR$/../feed_api/feed" />
+        <option value="$MODULE_DIR$/../feed_api/user" />
+        <option value="$MODULE_DIR$/../feed_api/user_profile" />
+      </list>
+    </option>
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/staticfiles" />
+      </list>
+    </option>
+  </component>
+</module>

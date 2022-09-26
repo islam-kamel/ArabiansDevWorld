@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -26,12 +25,17 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    "rest_framework_simplejwt",
+    # "rest_framework_simplejwt",
     "rest_framework",
     "drf_yasg",
     "user",
     "tag_system",
     "user_profile",
+    # Oauth2
+    "oauth2_provider",
+    "social_django",
+    "drf_social_oauth2",
+    # 'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +62,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # Oauth2
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
@@ -68,6 +75,9 @@ WSGI_APPLICATION = "core.wsgi.application"
 AUTH_USER_MODEL = "user.User"
 
 AUTHENTICATION_BACKENDS = [
+    "social_core.backends.github.GithubAppAuth",
+    "social_core.backends.github.GithubOAuth2",
+    "drf_social_oauth2.backends.DjangoOAuth2",
     "django.contrib.auth.backends.ModelBackend",
     "user.backends.EmailModelBackend",
 ]
@@ -118,9 +128,12 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication"  # noqa E501
+        # "rest_framework_simplejwt.authentication.JWTAuthentication"  # noqa E501
+        # Oauth2
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        "drf_social_oauth2.authentication.SocialAuthentication",
     ],
 }
 
@@ -132,30 +145,13 @@ SWAGGER_SETTINGS = {
 
 LOGIN_URL = os.getenv("LOGIN_URL")
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": True,
-    "UPDATE_LAST_LOGIN": True,
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": os.getenv("API_KEY"),
-    "VERIFYING_KEY": None,
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "username",
-    "USER_ID_CLAIM": "username",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",  # noqa E501
-    # noqa: E501
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-    "TOKEN_TYPE_CLAIM": "token_type",
-    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
-    "JTI_CLAIM": "jti",
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-}
+SOCIAL_AUTH_GITHUB_KEY = "675b6ba4e386edfa4c3c"
+SOCIAL_AUTH_GITHUB_SECRET = "c9b5204c66c5a89de4b24df12cb34e6022930287"
+
+SOCIAL_AUTH_GITHUB_SCOPE = ["read:user"]
+
+SOCIAL_AUTH_GITHUB_PROFILE_EXTRA_PARAMS = {"fields": "id, name, email"}
+
+SOCIAL_AUTH_USER_FIELDS = ["email", "username", "password"]
+
+# PKCE_REQUIRED = False

@@ -3,9 +3,9 @@ import re
 from django.contrib.auth import get_user_model
 from logging_manager import eventslog
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+# from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from tag_system.serializer import FollowTagsSerializers
-from user_profile.models import Name
 from user_profile.serializer import (
     AddressSerializer,
     BioSerializer,
@@ -182,12 +182,16 @@ class CreateUserSerializer(serializers.ModelSerializer):
     This main serializer for create new user only
     """
 
+    # date_of_birth = serializers.DateField(required=True)
+
     class Meta:
         model = get_user_model()
         fields = ["username", "email", "date_of_birth", "password"]
         extra_kwargs = {"password": {"write_only": True, "required": True}}
 
-    def validate_username(self, username):
+    @staticmethod
+    def validate_username(username):
+        print(username)
         pattern = re.compile(
             r"^[a-zA](?=[a-zA-Z\d._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$"
         )
@@ -203,14 +207,15 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return user
 
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer).get_token(user)
-        token["id"] = user.id
-        token["username"] = user.username
-        try:
-            token["full_name"] = Name.objects.get(user_id=user.id).get_full_name
-        except Name.DoesNotExist:
-            token["full_name"] = user.username
-        return token
+#
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     @classmethod
+#     def get_token(cls, user):
+#         token = super(MyTokenObtainPairSerializer).get_token(user)
+#         token["id"] = user.id
+#         token["username"] = user.username
+#         try:
+#             token["full_name"] = Name.objects.get(user_id=user.id).get_full_name
+#         except Name.DoesNotExist:
+#             token["full_name"] = user.username
+#         return token
