@@ -67,8 +67,9 @@ docker-compose up
 POST:            api/v1/user/register     `Create New User`
 [GET, PUT]:      api/v1/user/<username>   `Get User info and update user info` 
 POST:            api/v1/token             `genration token`
-POST:            api/v1/token/refresh     `Refresh token`
+POST:            api/v1/auth/token `Refresh token`
 ```
+> You Have Send `client_id=<client_id>` and `client_secret=<client_secret>` and `grant_type=password` and `username=<user_name>` and `password=<password>` As Params In HTTP Request 
 
 ### feed_api : URLs
 ```shell
