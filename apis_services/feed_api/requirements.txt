@@ -32,4 +32,4 @@ simplejson==3.17.6
 sqlparse==0.4.2
 tzdata==2022.1
 uritemplate==4.1.1
-urllib3==1.26.12
+urllib3==1.26.17
