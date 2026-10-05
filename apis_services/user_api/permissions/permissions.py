@@ -18,11 +18,7 @@ class IsOwner(permissions.BasePermission):
                 "{} - You do not have permission to perform this "
                 "action. ".format(request.user)
             )
-            raise ValidationError(
-                {
-                    "detail": """
+            raise ValidationError({"detail": """
                     You do not have permission to perform this action.
-                    """
-                }
-            )
+                    """})
         return obj.id == request.user.id
